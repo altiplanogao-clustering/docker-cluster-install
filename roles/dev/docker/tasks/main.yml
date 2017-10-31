@@ -1,0 +1,42 @@
+---
+
+- name: Install docker
+  include_tasks: "os_aware/{{ ansible_distribution }}/install.yml"
+
+- name: Post-install docker
+  include_tasks: '{{ item }}'
+  with_first_found:
+  - files:
+      - '{{ ansible_distribution }}/postinstall-{{ ansible_distribution_release }}.yml'
+      - '{{ ansible_distribution }}/postinstall-{{ ansible_distribution_major_version }}.yml'
+      - '{{ ansible_distribution }}/postinstall.yml'
+      - 'postinstall.yml'
+      - 'default.yml'
+    paths: '{{ role_path }}/tasks/os_aware'
+  when: docker_installed | default(false)
+
+- name: Check docker installation
+  raw: su - {{ dev_user}} -l -c "docker version"
+  register: docker_v
+  changed_when: False
+  failed_when: "( docker_v | failed ) or (docker_packages.version_expect not in docker_v.stdout )"
+  when: docker_installed | default(false)
+
+- name: Install docker compose
+  include_tasks: install_compose.yml
+  vars:
+    param_conf: '{{ docker_packages.tools.compose}}'
+  when: docker_installed | default(false)
+
+- name: Install docker machine
+  include_tasks: install_machine.yml
+  vars:
+    param_conf: '{{ docker_packages.tools.machine}}'
+  when: docker_installed | default(false)
+
+- name: Setup swarm
+  include_tasks: swarm/setup.yml
+
+- name: Setup registry
+  include_tasks: registry/setup.yml
+

@@ -1,0 +1,26 @@
+---
+
+resource_cache: "{{ playbook_dir | dirname }}/.resources"
+
+dev_group: developer
+dev_user: abc
+dev_user_pwd: abcdefg
+
+sharing_dir: /sharing
+smb_conf:
+  sharing_dir: /sharing
+  init_pwd: abcdefg
+vnc_init_pwd: abcdefg
+
+proxy:
+  enable: false
+  default: http://1.1.1.1:1111
+  http: http://1.1.1.1:1111
+  https: http://1.1.1.1:1111
+  ftp: http://1.1.1.1:1111
+  socks: http://1.1.1.1:1111
+  no_proxy: "localhost,127.0.0.1,localaddress,.localdomain.com"
+
+mounts:
+  - {type: nfs, host: localhost, path: /sharing, mountpoint: /xxx}
+

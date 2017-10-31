@@ -1,0 +1,26 @@
+node-00 ansible_host=192.168.101.100 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+node-01 ansible_host=192.168.101.101 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+
+node-02 ansible_host=192.168.101.102 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+node-03 ansible_host=192.168.101.103 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+node-04 ansible_host=192.168.101.104 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+
+node-05 ansible_host=192.168.101.105 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+node-06 ansible_host=192.168.101.106 ansible_user=swift ansible_become_user=root ansible_become_pass=passw0rd
+
+
+[docker_nodes]
+node-00
+node-01
+node-02
+
+[swarm_managers]
+node-00
+
+[swarm_workers]
+node-01
+node-02
+
+[swarm_nodes:children]
+swarm_managers
+swarm_workers

@@ -1,0 +1,10 @@
+.idea/
+.vagrant/
+*.retry
+.DS_Store
+vm/.vagrant/
+**/*.tar.gz
+*.log
+*.pyc
+.config.yml
+.hosts

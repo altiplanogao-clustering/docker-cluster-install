@@ -1,0 +1,17 @@
+---
+- debug: msg="os{{ ':'}}{{ ansible_os_family }}, distribution{{ ':'}}{{ ansible_distribution }}-{{ ansible_distribution_version }}({{ ansible_distribution_release }})"
+
+- include_vars: '{{ item }}'
+  with_first_found:
+  - files:
+    - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
+    - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+    - 'default.yml'
+    paths: '{{ role_path }}/vars/os'
+
+# ssh setting
+- name: Install the dependence packages
+  package: name="{{ item }}" state=present
+  with_items: '{{ dependency }}'

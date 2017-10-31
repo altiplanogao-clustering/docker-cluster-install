@@ -1,0 +1,18 @@
+---
+
+- name: Install apps
+  hosts: docker_nodes
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/config.yml
+    - .config.yml
+
+  roles:
+    - basic/system
+    - basic/proxy
+    - basic/sources
+    - basic/common
+    - basic/user
+    - dev/docker
+

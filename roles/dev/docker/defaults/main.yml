@@ -1,0 +1,68 @@
+---
+
+repo_install: false
+
+docker_packages:
+  tools:
+    compose:
+      file: docker-compose-Linux-x86_64-v1.15.0
+      url: https://github.com/docker/compose/releases/download/1.15.0/docker-compose-Linux-x86_64
+    compose_sh:
+      file: docker-compose-v1.15.0-run.sh
+    machine:
+      file: docker-machine-Linux-x86_64-v0.12.2
+      url: https://github.com/docker/machine/releases/download/v0.12.2/docker-machine-Linux-x86_64
+
+
+  docker_download_url: https://download.docker.com/linux/ubuntu/dists/
+  version_expect: 17.06.0-ce
+
+  Ubuntu:
+    trusty:
+      comment: 14
+      file: docker-ce_17.06.0-ce-0-ubuntu_amd64(trusty).deb
+      url: https://download.docker.com/linux/ubuntu/dists/trusty/pool/stable/amd64/docker-ce_17.06.0~ce-0~ubuntu_amd64.deb
+    xenial:
+      comment: 16
+      file: docker-ce_17.06.0-ce-0-ubuntu_amd64(xenial).deb
+      url: https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_17.06.0~ce-0~ubuntu_amd64.deb
+  CentOS:
+    _7:
+      file: docker-ce-17.06.0.ce-1.el7.centos.x86_64.rpm
+      url: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.06.0.ce-1.el7.centos.x86_64.rpm
+  Debian:
+    wheezy:
+      comment: 7
+      file: docker-ce_17.06.0-ce-0-debian_amd64(wheezy).deb
+      url: https://download.docker.com/linux/debian/dists/wheezy/pool/stable/amd64/docker-ce_17.06.0~ce-0~debian_amd64.deb
+    jessie:
+      comment: 8
+      file: docker-ce_17.06.0-ce-0-debian_amd64(jessie).deb
+      url: https://download.docker.com/linux/debian/dists/jessie/pool/stable/amd64/docker-ce_17.06.0~ce-0~debian_amd64.deb
+    stretch:
+      comment: 9
+      file: docker-ce_17.06.0-ce-0-debian_amd64(stretch).deb
+      url: https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/docker-ce_17.06.0~ce-0~debian_amd64.deb
+
+
+docker_group: docker
+
+docker_launch_swarm: false
+
+docker_reg_svr_conf:
+  image_name: registry:2.6.2
+  container_name: registry
+  hostname: docker.gy.io
+  config_hosts_file: true
+  port: 5000
+  cert_dir: /certs
+  localstorage: /var/docker/registry
+  self_signed_cert:
+    C: CN
+    ST: Shanghai
+    L: Shanghai
+    O: N\/A
+    OU: N\/A
+  run_on_a_node: false
+  run_on_swarm: false
+

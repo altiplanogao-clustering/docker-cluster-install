@@ -1,0 +1,26 @@
+---
+
+- set_fact:
+    local_proxy_file: /etc/sysconfig/proxy
+
+- name: Check if backup exist
+  stat: path="{{ local_proxy_file }}.bk"
+  register: bkstat
+- name: Backup sources.list
+  copy:
+    remote_src: true
+    src: '{{ local_proxy_file }}'
+    dest: '{{ local_proxy_file }}.bk'
+  when: ( not bkstat.stat.exists )
+
+- name: Set proxies ({{ local_proxy_file }})
+  template:
+    src: Suse.proxy
+    dest: '{{ local_proxy_file }}'
+  when: proxy.enable
+- name: Reset proxies ({{ local_proxy_file }})
+  copy:
+    src: "{{ local_proxy_file }}.bk"
+    dest: '{{ local_proxy_file }}'
+    remote_src: true
+  when: not proxy.enable
