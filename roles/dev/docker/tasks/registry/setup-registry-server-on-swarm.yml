@@ -38,17 +38,17 @@
 
 - name: Determine the registry server
   block:
-    - name: Group registry server
-      group_by:
-        key: _local_registry_servers_{{ ("swarm_nodes" in group_names and ( registry_server | default(false)) ) | ternary('true', 'false') }}
+    - name: Gather Resigtry Servers
+      set_fact:
+        _gather_registry_servers: '{{ hostvars.values() | json_query("[*].{host: inventory_hostname, is_registry: registry_server}") | selectattr("is_registry", "equalto", "true") | list | json_query("[*].host") | intersect(groups["swarm_nodes"]) }}'
     - name: Count registry server
       set_fact:
-        _local_registry_server_count: '{{ groups["_local_registry_servers_true"] | default([]) | length }}'
+        _local_registry_server_count: '{{ _gather_registry_servers | default([]) | length }}'
     - name: Resigtry Server Specified, use first one
       set_fact:
         the_registry_server:
-          host: "{{ groups['_local_registry_servers_true'][0] }}"
-          hostname: '{{ hostvars[groups["_local_registry_servers_true"][0]].ansible_hostname  }}'
+          host: "{{ _gather_registry_servers[0] }}"
+          hostname: '{{ hostvars[_gather_registry_servers[0]].ansible_hostname  }}'
       when: _local_registry_server_count | int > 0
     - name: Resigtry Server Not Specified, use first swarm manager
       set_fact:
