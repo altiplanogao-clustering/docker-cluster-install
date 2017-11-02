@@ -83,7 +83,6 @@ Vagrant.configure("2") do |config|
             "docker_nodes" => node_names,
             "swarm_managers" => m_node_names,
             "swarm_workers" => w_node_names,
-            "swarm_nodes" => node_names,
           }
         end
       end

@@ -40,7 +40,7 @@
   block:
     - name: Gather Resigtry Servers
       set_fact:
-        _gather_registry_servers: '{{ hostvars.values() | json_query("[*].{host: inventory_hostname, is_registry: registry_server}") | selectattr("is_registry", "equalto", "true") | list | json_query("[*].host") | intersect(groups["swarm_nodes"]) }}'
+        _gather_registry_servers: '{{ hostvars.values() | json_query("[*].{host: inventory_hostname, is_registry: registry_server}") | selectattr("is_registry", "equalto", "true") | list | json_query("[*].host") | intersect(groups["swarm_managers"] | union(groups["swarm_workers"])) }}'
     - name: Count registry server
       set_fact:
         _local_registry_server_count: '{{ _gather_registry_servers | default([]) | length }}'

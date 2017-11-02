@@ -46,8 +46,8 @@
     - name: Resigtry Server Not Specified, use first node
       set_fact:
         the_registry_server:
-          host: "{{ groups['docker_nodes'][0] }}"
-          hostname: "{{ hostvars[groups['docker_nodes'][0]].ansible_hostname  }}"
+          host: "{{ play_hosts[0] }}"
+          hostname: "{{ hostvars[play_hosts[0]].ansible_hostname  }}"
       when: _local_registry_server_count | int == 0
     - name: Calc Resistry Server Variable
       set_fact:
@@ -55,7 +55,7 @@
     - name: Tag the Resistry Server
       set_fact:
         chosen_registry_server: true | bool
-      when: (the_registry_server.hostname == ansible_hostname)
+      when: (the_registry_server.host == inventory_hostname)
 
 - name: Setup Resigtry Server (Certs)
   include_tasks: node-prepare-certs.yml
