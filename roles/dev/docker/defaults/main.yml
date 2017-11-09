@@ -13,7 +13,6 @@ docker_packages:
       file: docker-machine-Linux-x86_64-v0.12.2
       url: https://github.com/docker/machine/releases/download/v0.12.2/docker-machine-Linux-x86_64
 
-
   docker_download_url: https://download.docker.com/linux/ubuntu/dists/
   version_expect: 17.06.0-ce
 
@@ -43,7 +42,6 @@ docker_packages:
       comment: 9
       file: docker-ce_17.06.0-ce-0-debian_amd64(stretch).deb
       url: https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/docker-ce_17.06.0~ce-0~debian_amd64.deb
-
 
 docker_group: docker
 
